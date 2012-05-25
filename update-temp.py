@@ -6,16 +6,6 @@ import commands
 import string
 import os
 
-#running = commands.getoutput("ps aux | grep -v grep | grep update-temp")
-#if len(running) > 0:
-#    for instance in string.split(running,"\n"):
-#        instance = string.split(instance)
-#        print "|" + instance[1] + "|"
-#        print "|" + str(os.getpid()) + "|"
-#        if instance[1] != str(os.getpid()):
-#            print "hi"
-#            k = commands.getoutput("kill " + instance[1])
-
 retry = 5
 data = None
 ser = serial.Serial('/dev/ttyUSB0', 9600, timeout = 1)
