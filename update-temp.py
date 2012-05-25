@@ -5,6 +5,7 @@ import re
 import commands
 import string
 import os
+import MySQLdb
 
 retry = 5
 data = None
@@ -27,9 +28,22 @@ if retry == 0:
 print data
 m = re.match("T: (-?\d*\.\d*); H: (\d*\.\d*);", data)
 if m:
-    ret = rrdtool.update("/srv/http/temp-humid/temp-humid.rrd", "N:" + m.group(1) + ":" + m.group(2))
-    if ret:
-        print rrdtool.error()
+	temp = m.group(1)
+	humid = m.group(2)
+	ret = rrdtool.update("/srv/http/temp-humid/temp-humid.rrd", "N:" + temp + ":" + humid)
+	if ret:
+		print rrdtool.error()
+
+	conn = MySQLdb.connect(host="localhost", user="smarthouse", passwd="***REMOVED***", db="smarthouse")
+	cursor = conn.cursor()
+	try:
+		cursor.execute("""INSERT INTO `point_data_float` (`ipid`, `timestamp`, `value`) VALUES (1, NOW(), %s), (2, NOW(), %s)""", (temp, humid))
+		conn.commit()
+	except:
+		print "err"
+		conn.rollback();
+	cursor.close()
+	conn.close()
 else:
     print "regex fail"
 
