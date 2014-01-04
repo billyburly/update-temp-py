@@ -7,7 +7,7 @@ import os
 import MySQLdb
 import telnetlib
 
-host = '192.168.1.80'
+host = '10.47.0.80'
 retry = 5
 
 data = None
