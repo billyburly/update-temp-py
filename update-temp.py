@@ -1,6 +1,5 @@
 import sys
 import rrdtool
-import re
 import commands
 import string
 import os
@@ -19,11 +18,11 @@ while retry > 0:
     data = None
     
     try:
-        tn = telnetlib.Telnet(host)
-        tn.write("f")
+        c = httplib.HTTPConnection(host)
+        c.request("GET","/")
 
-        data = tn.read_until("\n")
-        (temp, humid) = data.rstrip("\n").split(",")
+        data = c.getresponse().read()
+        (itemp, ihumid) = data.rstrip("\n").split(":")
     except:
         print "http error"
         data = None
