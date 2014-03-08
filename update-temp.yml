@@ -1,0 +1,4 @@
+host: 10.47.0.80
+retry: 5
+idMap:
+  0: local
