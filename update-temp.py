@@ -6,19 +6,19 @@ import os
 import MySQLdb
 import httplib
 import yaml
-
-host = '10.47.0.80'
-retry = 5
+import argparse
 
 data = None
 itemp = None
 ihumid = None
 
-conf = yaml.load(file('update-temp.yml', 'r'), Loader=yaml.CLoader)
-if "host" in conf:
-    host = conf["host"]
-if "retry" in conf:
-    retry = conf["retry"]
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--file", help="config file to use", required=True)
+args = parser.parse_args()
+
+conf = yaml.load(file(args.file, 'r'), Loader=yaml.CLoader)
+host = conf["host"]
+retry = conf["retry"]
 
 def calcData(itemp, ihumid):
     temp = int(itemp)
