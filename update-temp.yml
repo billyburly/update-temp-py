@@ -2,3 +2,8 @@ host: 10.47.0.80
 retry: 5
 idMap:
   0: local
+db:
+  host: localhost
+  user: smarthouse
+  pass: smarthouse
+  db: smarthouse

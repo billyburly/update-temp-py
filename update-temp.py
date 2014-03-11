@@ -73,7 +73,7 @@ for (i, d) in data.iteritems():
     if ret:
 	print rrdtool.error()
 
-    conn = MySQLdb.connect(host="localhost", user="smarthouse", passwd="", db="smarthouse")
+    conn = MySQLdb.connect(host=conf['db']['host'], user=conf['db']['user'], passwd=conf['db']['pass'], db=conf['db']['db'])
     cursor = conn.cursor()
     try:
 	cursor.execute("""INSERT INTO `point_data_float` (`ipid`, `timestamp`, `value`) VALUES ((SELECT `ipid` FROM `points` WHERE `pid` = %s), NOW(3), %s), ((SELECT `ipid` FROM `points` WHERE `pid` = %s), NOW(3), %s)""", ("temp." + dev, st, "humid." + dev, sh))
