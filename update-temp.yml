@@ -7,3 +7,5 @@ db:
   user: smarthouse
   pass: smarthouse
   db: smarthouse
+rrd:
+  path: /srv/http/temp-humid

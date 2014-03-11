@@ -69,7 +69,7 @@ for (i, d) in data.iteritems():
     sh = str(humid) if humid != -9999 else ""
     dev = conf['idMap'][i]
 
-    ret = rrdtool.update("/srv/http/temp-humid/dev/" + dev + ".rrd", "N:" + st + ":" + sh)
+    ret = rrdtool.update(conf['rrd']['path'] + "/dev/" + dev + ".rrd", "N:" + st + ":" + sh)
     if ret:
 	print rrdtool.error()
 
