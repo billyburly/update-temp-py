@@ -64,6 +64,9 @@ if data == None:
     exit()
 
 for (i, d) in data.iteritems():
+    if i not in conf['idMap']:
+        continue
+    
     (temp, humid) = calcData(d['itemp'], d['ihumid'])
     st = str(temp) if temp != -9999 else ""
     sh = str(humid) if humid != -9999 else ""
@@ -71,15 +74,15 @@ for (i, d) in data.iteritems():
 
     ret = rrdtool.update(conf['rrd']['path'] + "/dev/" + dev + ".rrd", "N:" + st + ":" + sh)
     if ret:
-	print rrdtool.error()
+        print rrdtool.error()
 
     conn = MySQLdb.connect(host=conf['db']['host'], user=conf['db']['user'], passwd=conf['db']['pass'], db=conf['db']['db'])
     cursor = conn.cursor()
     try:
-	cursor.execute("""INSERT INTO `point_data_float` (`ipid`, `timestamp`, `value`) VALUES ((SELECT `ipid` FROM `points` WHERE `pid` = %s), NOW(3), %s), ((SELECT `ipid` FROM `points` WHERE `pid` = %s), NOW(3), %s)""", ("temp." + dev, st, "humid." + dev, sh))
-	conn.commit()
+        cursor.execute("""INSERT INTO `point_data_float` (`ipid`, `timestamp`, `value`) VALUES ((SELECT `ipid` FROM `points` WHERE `pid` = %s), NOW(3), %s), ((SELECT `ipid` FROM `points` WHERE `pid` = %s), NOW(3), %s)""", ("temp." + dev, st, "humid." + dev, sh))
+        conn.commit()
     except:
-	print "err"
-	conn.rollback();
+        print "err"
+        conn.rollback();
     cursor.close()
     conn.close()
