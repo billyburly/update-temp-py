@@ -49,8 +49,8 @@ while retry > 0:
         for line in resp:
             line = line.split(':')
             rid = int(line[0])
-            (itemp, ihumid) = line[1].split(',')
-            data[rid] = { 'itemp': itemp, 'ihumid': ihumid }
+            (itemp, ihumid, updated_at) = line[1].split(',')
+            data[rid] = { 'itemp': itemp, 'ihumid': ihumid, 'updated_at': updated_at }
     except:
         print "http error"
         data = None
